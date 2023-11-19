@@ -1,0 +1,16 @@
+<h2 align="center">Вход</h2>
+
+<%= form_with url: 'create', method: :post do |form| %>
+	<p>
+		<%= form.label 'Введите e-mail', class: 'form-label' %>
+		<%= form.email_field :email, placeholder: 'E-mail', class: 'form-control', id: 'email' %>
+	</p>
+	<p>
+		<%= form.label 'Введите пароль', class: 'form-label' %>
+		<%= form.password_field :password, class: 'form-control', id: 'password' %>
+	</p>
+	<p>
+		<%= form.submit 'Вход', class: 'btn btn-primary' %>
+	</p>
+<% end %>
+<%= link_to 'Нет аккаунта? Зарегистрируйтесь!', '../users/new' %>

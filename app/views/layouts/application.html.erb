@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OSSIF</title>
+    <%# <%= favicon_link_tag '#' %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+      .nav-link:hover {
+         background: #20B2AA; /* Цвет блока при наведении курсора. */
+         color: white;  /* Цвет текста при наведении курсора. */
+      }
+      body {
+        background: #00FFFF;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        /* Чтобы занимал оставшееся пространство */
+        flex-grow: 1;
+      }
+      .navbar {
+        background: #00CED1;
+      }
+      footer {
+        background: #B0E0E6;
+        flex-shrink: 0;
+      }
+    </style>
+<%#
+    <script language="JavaScript">
+    function expandit(id){
+      obj = document.getElementById(id);
+      if (obj.style.display=="none") obj.style.display="";
+      else obj.style.display="none";
+    }
+    </script>
+%>
+  </head>
+  <body>
+    <%= render 'layouts/header' %>
+    <br/>
+    <main role="main">
+      <div class="container">
+        <% flash.each do |type, msg| %>
+          <% if type == 'success' %>
+            <div class="alert alert-success">
+              <%= msg %>
+            </div>
+          <% elsif type == 'warning' %>
+            <div class="alert alert-danger">
+              <%= msg %>
+            </div>
+          <% end %>
+        <% end %>
+        <%= yield %>
+      </div>
+    </main>
+    <%= render 'layouts/footer' %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  </body>
+</html>
