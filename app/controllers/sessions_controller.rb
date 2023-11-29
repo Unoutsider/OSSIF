@@ -10,9 +10,9 @@ class SessionsController < ApplicationController
         session[:user_id] = @user.id
         flash[:success] = "Добро пожаловать, #{@user.name}!"
         if User.find(session[:user_id]).superuser then
-          redirect_to '/users/show'
+          redirect_to '/users/users_data'
         else
-          redirect_to '/main/input'
+          redirect_to '/users/profile'
         end
       else
         flash[:warning] = 'Неверный e-mail или пароль'

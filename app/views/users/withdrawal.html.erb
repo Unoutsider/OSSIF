@@ -1,0 +1,80 @@
+<%= form_with url: 'cash_check', method: :post do |form| %>
+   <div class="col-md-6 offset-md-3">
+                    <span class="anchor" id="formPayment"></span>
+                    </br>
+                    <!-- form card cc payment -->
+                    <div class="card card-outline-secondary">
+                        <div class="card-body">
+                            <h3 class="text-center">Вывод средств</h3>
+
+                            <form class="form" role="form" autocomplete="off">
+                                <div class="form-group">
+                                    <label for="cc_name">Имя владельца карты</label>
+                                    </br></br>
+                                    <%= form.text_field :card_owner, placeholder: 'Иван Иванов', class: 'form-control', title: 'Имя и фамилия', id: 'card_owner' %>
+                                    </br>
+                                </div>
+                                <div class="form-group">
+                                    <label>Номер карты</label>
+                                    </br></br>
+                                    <%= form.number_field :card_number, placeholder: '1111222233334444', class: 'form-control', title: 'Номер карты без пробелов', id: 'card_number' %>
+                                    </br>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-12">Действительна до</label>
+                                    </br></br>
+                                    <div class="col-md-4">
+                                        <select class="form-control" name="cc_exp_mo" size="0">
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>ы а
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select class="form-control" name="cc_exp_yr" size="0">
+                                            <option>2023</option>
+                                            <option>2024</option>
+                                            <option>2025</option>
+                                            <option>2026</option>
+                                            <option>2027</option>
+                                            <option>2028</option>
+                                            <option>2029</option>
+                                            <option>2030</option>
+                                            <option>2031</option>
+                                            <option>2032</option>
+                                            <option>2033</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </br>
+                                <div class="row">
+                                    <label class="col-md-12">Сумма вывода</label>
+                                    </br></br>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text">₽</span></div>
+                                        <%= form.number_field :cash, placeholder: '0', class: 'form-control', id: 'cash' %>
+                                    </div>
+                                </div>
+                                </br>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                      <p>
+                                        <%= form.submit 'Вывод', class: 'btn btn-primary' %>
+                                      </p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+<% end %>

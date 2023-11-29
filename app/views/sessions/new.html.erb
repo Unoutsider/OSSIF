@@ -8,9 +8,11 @@
 	<p>
 		<%= form.label 'Введите пароль', class: 'form-label' %>
 		<%= form.password_field :password, class: 'form-control', id: 'password' %>
+
 	</p>
 	<p>
 		<%= form.submit 'Вход', class: 'btn btn-primary' %>
 	</p>
 <% end %>
-<%= link_to 'Нет аккаунта? Зарегистрируйтесь!', '../users/new' %>
+
+<%= link_to 'Восстановить пароль', '../users/reset' %>

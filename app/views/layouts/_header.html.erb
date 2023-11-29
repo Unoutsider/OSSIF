@@ -14,15 +14,86 @@
           </li>
         <% elsif User.find(session[:user_id]).superuser %>
           <li class="nav-item">
-              <%= link_to 'OSSIF', '/main/input', class: 'nav-link active' %>
+              <%= link_to 'Пользователи', '/users/users_data', class: 'nav-link active' %>
+          </li>
+          <li class="nav-item">
+              <%= link_to 'Рейтинги', '/users/rating', class: 'nav-link active' %>
+          </li>
+          <div class="dropdown">
+            <button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Соревнования
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li class="nav-item">
+                  <%= link_to 'Речь', '/users/competition_speech', class: 'nav-link active' %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to 'Эффективность', '/users/competition_productivity', class: 'nav-link active' %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to 'Сон', '/users/competition_sleep', class: 'nav-link active' %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to 'Питание', '/users/competition_nutrition', class: 'nav-link active' %>
+              </li>
+            </ul>
+          </div>
+          <li class="nav-item">
+              <%= link_to 'Задания', '/users/tasks_data', class: 'nav-link active' %>
+          </li>
+          <li class="nav-item">
+              <%= link_to 'Редактирование', '/users/edit', class: 'nav-link active' %>
+          </li>
+          <li class="nav-item">
+              <%= link_to 'Обработка предложений заданий', '/users/react', class: 'nav-link active' %>
           </li>
           <li class="nav-item">
             <%= link_to 'Выход', sessions_destroy_path, data: {turbo_method: :delete}, class: 'nav-link active' %>
           </li>
         <% else %>
+          <% if !User.find(session[:user_id]).tested %>
           <li class="nav-item">
-              <%= link_to 'OSSIF', '/main/input', class: 'nav-link active' %>
+              <%= link_to 'Тестирование', '/users/test', class: 'nav-link active' %>
           </li>
+          <% end %>
+          <li class="nav-item">
+              <%= link_to 'Задания', '/users/task', class: 'nav-link active' %>
+          </li>
+          <% if User.find(session[:user_id]).rating > 1000 %>
+          <li class="nav-item">
+              <%= link_to 'Предложить задание', '/users/offer', class: 'nav-link active' %>
+          </li>
+          <% end %>
+          <div class="dropdown">
+            <button class="btn btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              Соревнования
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li class="nav-item">
+                  <%= link_to 'Речь', '/users/competition_speech', class: 'nav-link active' %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to 'Эффективность', '/users/competition_productivity', class: 'nav-link active' %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to 'Сон', '/users/competition_sleep', class: 'nav-link active' %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to 'Питание', '/users/competition_nutrition', class: 'nav-link active' %>
+              </li>
+            </ul>
+          </div>
+          <li class="nav-item">
+              <%= link_to 'Рейтинги', '/users/rating', class: 'nav-link active' %>
+          </li>
+          <li class="nav-item">
+              <%= link_to 'Профиль', '/users/profile', class: 'nav-link active' %>
+          </li>
+          <% if User.find(session[:user_id]).rating > 1000 %>
+          <li class="nav-item">
+              <%= link_to 'Вывод средств', '/users/withdrawal', class: 'nav-link active' %>
+          </li>
+          <% end %>
           <li class="nav-item">
             <%= link_to 'Выход', sessions_destroy_path, data: {turbo_method: :delete}, class: 'nav-link active' %>
           </li>

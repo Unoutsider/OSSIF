@@ -1,0 +1,19 @@
+<h2 align="center">Восстановление пароля</h2>
+
+<%= form_with url: 'new_password', method: :post do |form| %>
+	<p>
+		<%= form.label 'Введите e-mail', class: 'form-label' %>
+		<%= form.email_field :email, placeholder: 'E-mail', class: 'form-control', id: 'email' %>
+	</p>
+  <p>
+		<%= form.label 'Введите секретное число', class: 'form-label' %>
+		<%= form.number_field :secret_number, placeholder: 'Секретное число', class: 'form-control', id: 'secret_number' %>
+	</p>
+	<p>
+		<%= form.label 'Введите новый пароль', class: 'form-label' %>
+		<%= form.password_field :password, class: 'form-control', id: 'password' %>
+	</p>
+	<p>
+		<%= form.submit 'Изменить пароль', class: 'btn btn-primary' %>
+	</p>
+<% end %>

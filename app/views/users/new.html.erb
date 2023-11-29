@@ -2,12 +2,24 @@
 
 <%= form_with url: 'create', method: :post do |form| %>
 	<p>
-		<%= form.label 'Введите e-mail', class: 'form-label' %>
-		<%= form.email_field :email, placeholder: 'E-mail', class: 'form-control', id: 'email' %>
+		<%= form.label 'Придумайте логин', class: 'form-label' %>
+		<%= form.text_field :login, placeholder: 'Логин', class: 'form-control', id: 'login' %>
 	</p>
 	<p>
-		<%= form.label 'Введите имя', class: 'form-label' %>
-		<%= form.text_field :name, placeholder: 'Имя', class: 'form-control', id: 'name' %>
+		<%= form.label 'Введите ФИО', class: 'form-label' %>
+		<%= form.text_field :name, placeholder: 'ФИО', class: 'form-control', id: 'name' %>
+	</p>
+	<p>
+		<%= form.label 'Введите дату рождения', class: 'form-label' %>
+		<%= form.date_field :date, placeholder: 'ДД.ММ.ГГГГ', class: 'form-control', id: 'date' %>
+	</p>
+	<p>
+		<%= form.label 'Введите секретное число (для восстановления пароля)', class: 'form-label' %>
+		<%= form.number_field :secret_number, placeholder: 'Секретное число', class: 'form-control', id: 'secret_number' %>
+	</p>
+	<p>
+		<%= form.label 'Введите e-mail', class: 'form-label' %>
+		<%= form.email_field :email, placeholder: 'E-mail', class: 'form-control', id: 'email' %>
 	</p>
 	<p>
 		<%= form.label 'Введите пароль', class: 'form-label' %>
@@ -21,4 +33,3 @@
 		<%= form.submit 'Зарегистрироваться', class: 'btn btn-primary' %>
 	</p>
 <% end %>
-<%= link_to 'Уже есть аккаунт? Войдите!', '../sessions/new' %>
