@@ -1,0 +1,37 @@
+</br>
+<h2 align="center">Все задания</h2>
+</br>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Название</th>
+      <th scope="col">Сфера</th>
+      <th scope="col">Описание</th>
+      <th scope="col">Ответ №1</th>
+      <th scope="col">Ответ №2</th>
+      <th scope="col">Ответ №3</th>
+      <th scope="col">Подтверждено</th>
+      <th scope="col">Тестовое</th>
+      <th scope="col">id создателя</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% sql = 'select name, sphere, description, answer_1, answer_2, answer_3, agreed, test, creater from tasks'%>
+    <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+    <% records_array.each do |result| %>
+      <% if result.values[1] != 'garbage'%>
+        <tr>
+          <td class="table-secondary"><%= result.values[0] %></td>
+          <td class="table-secondary"><%= result.values[1] %></td>
+          <td class="table-secondary"><%= result.values[2] %></td>
+          <td class="table-secondary"><%= result.values[3] %></td>
+          <td class="table-secondary"><%= result.values[4] %></td>
+          <td class="table-secondary"><%= result.values[5] %></td>
+          <td class="table-secondary"><%= result.values[6] %></td>
+          <td class="table-secondary"><%= result.values[7] %></td>
+          <td class="table-secondary"><%= result.values[8] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

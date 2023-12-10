@@ -39,13 +39,13 @@
             </ul>
           </div>
           <li class="nav-item">
-              <%= link_to 'Задания', '/users/tasks_data', class: 'nav-link active' %>
+              <%= link_to 'Задания', '/tasks/tasks_data', class: 'nav-link active' %>
           </li>
           <li class="nav-item">
-              <%= link_to 'Редактирование', '/users/edit', class: 'nav-link active' %>
+              <%= link_to 'Редактирование', '/tasks/edit', class: 'nav-link active' %>
           </li>
           <li class="nav-item">
-              <%= link_to 'Обработка предложений заданий', '/users/react', class: 'nav-link active' %>
+              <%= link_to 'Обработка предложений заданий', '/tasks/react', class: 'nav-link active' %>
           </li>
           <li class="nav-item">
             <%= link_to 'Выход', sessions_destroy_path, data: {turbo_method: :delete}, class: 'nav-link active' %>
@@ -53,15 +53,20 @@
         <% else %>
           <% if !User.find(session[:user_id]).tested %>
           <li class="nav-item">
-              <%= link_to 'Тестирование', '/users/test', class: 'nav-link active' %>
+              <%= link_to 'Тестирование', '/tasks/test', class: 'nav-link active' %>
           </li>
           <% end %>
+          <% if User.find(session[:user_id]).tested %>
           <li class="nav-item">
-              <%= link_to 'Задания', '/users/task', class: 'nav-link active' %>
+              <%= link_to 'Задания', '/tasks/task', class: 'nav-link active' %>
           </li>
+          <% end %>
           <% if User.find(session[:user_id]).rating > 1000 %>
           <li class="nav-item">
-              <%= link_to 'Предложить задание', '/users/offer', class: 'nav-link active' %>
+              <%= link_to 'Предложить задание', '/tasks/offer', class: 'nav-link active' %>
+          </li>
+          <li class="nav-item">
+              <%= link_to 'Предложенные задания', '/tasks/offer_results', class: 'nav-link active' %>
           </li>
           <% end %>
           <div class="dropdown">

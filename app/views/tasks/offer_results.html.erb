@@ -1,0 +1,29 @@
+<% user = User.find(session[:user_id]) %>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">№</th>
+      <th scope="col">Название</th>
+      <th scope="col">Статус</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% sql = 'select name, sphere, agreed, creater from tasks'%>
+    <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+    <% records_array.each_with_index do |result, position| %>
+      <% if result.values[3] == user.id%>
+        <tr>
+          <th class="table-secondary" scope="row"><%= position + 1 %></th>
+          <td class="table-secondary"><%= result.values[0] %></td>
+          <% if result.values[1] == 'garbage'%>
+            <td class="table-secondary" style="color:#8B0000">Отклонено</td>
+          <% elsif result.values[2] == false %>
+            <td class="table-secondary" style="color:#32CD32">На рассмотрении</td>
+          <% else%>
+            <td class="table-secondary" style="color:#006400">Одобрено</td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

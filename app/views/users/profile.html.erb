@@ -29,6 +29,82 @@
                   </div>
                 </div>
               </div>
+
+<%############## Алгоритм расчёта бонусов по показателям развитости%>
+              <% speech_bonus = 0 %>
+              <% productivity_bonus = 0 %>
+              <% sleep_bonus = 0 %>
+              <% nutrition_bonus = 0 %>
+
+              <% sql = 'select login, speech from users where superuser = false order by speech DESC'%>
+              <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+              <% records_array.each_with_index do |result, position| %>
+                <% if result.values[0] == user.login %>
+                  <% pos_speech = position + 1 %>
+                  <% if pos_speech == 1 %>
+                    <% speech_bonus = 3 %>
+                  <% elsif pos_speech > 1 and pos_speech < 11 %>
+                    <% speech_bonus = 2 %>
+                  <% elsif pos_speech > 10 and pos_speech < 21 %>
+                    <% speech_bonus = 1 %>
+                  <% else %>
+                    <% speech_bonus = 0 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% sql = 'select login, productivity from users where superuser = false order by productivity DESC'%>
+              <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+              <% records_array.each_with_index do |result, position| %>
+                <% if result.values[0] == user.login %>
+                  <% pos_productivity = position + 1 %>
+                  <% if pos_productivity == 1 %>
+                    <% productivity_bonus = 3 %>
+                  <% elsif pos_productivity > 1 and pos_productivity < 11 %>
+                    <% productivity_bonus = 2 %>
+                  <% elsif pos_productivity > 10 and pos_productivity < 21 %>
+                    <% productivity_bonus = 1 %>
+                  <% else %>
+                    <% productivity_bonus = 0 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% sql = 'select login, sleep from users where superuser = false order by sleep DESC'%>
+              <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+              <% records_array.each_with_index do |result, position| %>
+                <% if result.values[0] == user.login %>
+                  <% pos_sleep = position + 1 %>
+                  <% if pos_sleep == 1 %>
+                    <% sleep_bonus = 3 %>
+                  <% elsif pos_sleep > 1 and  pos_sleep < 11 %>
+                    <% sleep_bonus = 2 %>
+                  <% elsif pos_sleep > 10 and  pos_sleep < 21 %>
+                    <% sleep_bonus = 1 %>
+                  <% else %>
+                    <% sleep_bonus = 0 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% sql = 'select login, nutrition from users where superuser = false order by nutrition DESC'%>
+              <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+              <% records_array.each_with_index do |result, position| %>
+                <% if result.values[0] == user.login %>
+                  <% pos_nutrition = position + 1 %>
+                  <% if pos_nutrition == 1 %>
+                    <% nutrition_bonus = 3 %>
+                  <% elsif pos_nutrition > 1 and  pos_nutrition < 11 %>
+                    <% nutrition_bonus = 2 %>
+                  <% elsif pos_nutrition > 10 and  pos_nutrition < 21 %>
+                    <% nutrition_bonus = 1 %>
+                  <% else %>
+                    <% nutrition_bonus = 0 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+<%############################%>
+
               <div class="card mt-4">
                 <div class="card h-100">
                   <div class="card-body">
@@ -37,27 +113,30 @@
                       <div class="col-4">
                         <small>Речь</small>
                         <div>
-                          <p><%= user.speech %></p>
+                          <p><%= user.speech %>(+<%= speech_bonus %>)</p>
                         </div>
                         <small>Эффективность</small>
                         <div>
-                          <p><%= user.productivity %></p>
+                          <p><%= user.productivity %>(+<%= productivity_bonus %>)</p>
                         </div>
                       </div>
                       <div class="col-4">
                         <small>Сон</small>
                         <div>
-                          <p><%= user.sleep %></p>
+                          <p><%= user.sleep %>(+<%= sleep_bonus %>)</p>
                         </div>
                         <small>Питание</small>
                         <div>
-                          <p><%= user.nutrition %></p>
+                          <p><%= user.nutrition %>(+<%= nutrition_bonus %>)</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+
+
             </div>
             <div class="col-md-8">
               <div class="card mb-3">
@@ -108,10 +187,38 @@
                   </div>
                   <hr>
                   <div class="row">
-                    <div class="col-sm-12">
-                      <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Текущия сфера развития</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <%= user.current_sphere %>
                     </div>
                   </div>
+                  <hr>
+
+                  <%= form_with url: 'change_sphere', method: :post do |form| %>
+                    <h6>Заменить текущую сферу развития:</h6>
+                    <div>
+                      <%= form.radio_button :sphere, class: 'form-control', id: 'speech' %>
+                      <%= form.label 'Речь', class: 'form-label' %>
+                    </div>
+                    <div>
+                      <%= form.radio_button :sphere, class: 'form-control', id: 'sleep' %>
+                      <%= form.label 'Сон', class: 'form-label' %>
+                    </div>
+                    <div>
+                      <%= form.radio_button :sphere, class: 'form-control', id: 'productivity' %>
+                      <%= form.label 'Эффективность', class: 'form-label' %>
+                    </div>
+                    <div>
+                      <%= form.radio_button :sphere, class: 'form-control', id: 'nutrition' %>
+                      <%= form.label 'Питание', class: 'form-label' %>
+                    </div>
+                  	<div>
+                  		<%= form.submit 'Сохранить текущую сферу', class: 'btn btn-primary' %>
+                  	</div>
+                  <% end %>
+
                 </div>
               </div>
             </div>

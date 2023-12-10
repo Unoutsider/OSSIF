@@ -1,0 +1,35 @@
+<h2 align="center">Обработка</h2>
+<br/>
+<% tasks = Task.all %>
+<div class="row">
+<% tasks.each do |task| %>
+  <div class="col">
+  <% if task.agreed != true%>
+    <div class="card" style="width: 18rem; background: #00FFFF;">
+      <div class="card-body">
+          <h5 class="card-title">Название - <%= task.name %></h5>
+          <p class="card-title">Сфера - <%= task.sphere %></p>
+          <p class="card-title">Описание: <%= task.description %></p>
+          <p class="card-title">Ответ 1 - <%= task.answer_1 %></p>
+          <p class="card-title">Стоимость - <%= task.answer_1_cost %></p>
+          <p class="card-title">Ответ 2 - <%= task.answer_2 %></p>
+          <p class="card-title">Стоимость - <%= task.answer_2_cost %></p>
+          <p class="card-title">Ответ 3 - <%= task.answer_3 %></p>
+          <p class="card-title">Стоимость - <%= task.answer_3_cost %></p>
+          <h5 class="card-title">Решение:</h5>
+              <div class="row">
+                <div class="col-4">
+                    <%= button_to 'Принять', {:controller => 'tasks', :action => 'positive_offer', :task_id => task.id, :user_id => task.creater}, class: 'btn btn-primary' %>
+                </div>
+                <div  class="col-4">
+                    <%= button_to 'Отклонить', {:controller => 'tasks', :action => 'negative_offer', :task_id => task.id}, class: 'btn btn-primary' %>
+                </div>
+              </div>
+              <br/>
+      </div>
+    </div>
+  <% end %>
+  </div>
+<% end %>
+</div>
+<br/>

@@ -48,6 +48,13 @@ class UsersController < ApplicationController
     @user = User.find_by(id: session[:user_id])
     if params[:card_owner].empty? or params[:card_number].empty?
       flash[:warning] = "Заполните все поля!"
+      redirect_to '/users/withdrawal'
+    elsif (params[:card_owner].to_s.length < 3) or (!(params[:card_owner].to_s.include? " "))
+      flash[:warning] = "Неправильный формат поля имени владельца карты"
+      redirect_to '/users/withdrawal'
+    elsif params[:card_number].to_s.length != 16
+      flash[:warning] = "Неправильный формат карты!"
+      redirect_to '/users/withdrawal'
     else
       if params[:cash].to_i < @user.balance and params[:cash].to_i > 0
         flash[:success] = "Вывод средств выполнен успешно!"
@@ -61,6 +68,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def change_sphere
+    @user = User.find_by(id: session[:user_id])
+    if (params[:sphere].to_s[22..] != @user.current_sphere) and (!params[:sphere].nil?)
+      @user.current_sphere = params[:sphere].to_s[22..]
+      @user.save
+      flash[:success] = "Текущая сфера успешно изменена!"
+      redirect_to '/users/profile'
+    end
+  end
+
   def competition_speech
   end
   def competition_productivity
@@ -69,32 +86,17 @@ class UsersController < ApplicationController
   end
   def competition_nutrition
   end
-  def offer
-  end
   def withdrawal
-  end
-  def reset
-  end
-  def new
-  end
-  def show
-  end
-  def task
   end
   def profile
   end
   def rating
   end
-  def test
-  end
   def users_data
   end
-  def tasks_data
+  def reset
   end
-  def competitions_data
+  def new
   end
-  def edit
-  end
-  def react
-  end
+
 end

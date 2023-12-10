@@ -1,0 +1,25 @@
+</br>
+<h2 align="center">Обработка</h2>
+</br>
+<% tasks = Task.all %>
+<h5><%= link_to 'Добавить новое', '../tasks/offer' %></h5>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Название</th>
+      <th scope="col">Сфера</th>
+      <th scope="col">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% tasks.each do |task| %>
+      <% if task.sphere != 'garbage' and task.agreed == true%>
+        <tr>
+          <td class="table-secondary"><%= task.name %></td>
+          <td class="table-secondary"><%= task.sphere %></td>
+          <td class="table-secondary"><%= button_to 'Удалить', {:controller => 'tasks', :action => 'delete_task', :task_id => task.id}, class: 'btn btn-primary' %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

@@ -1,30 +1,33 @@
 Rails.application.routes.draw do
+  get 'tasks/react'
+  get 'tasks/offer'
+  get 'tasks/edit'
+  get 'tasks/tasks_data'
+  get 'tasks/test'
+  get 'tasks/task'
+  get 'tasks/offer_results'
+
+  post 'tasks/offer_create', to: 'tasks#offer_create'
+  post 'tasks/positive_offer', to: 'tasks#positive_offer'
+  post 'tasks/negative_offer', to: 'tasks#negative_offer'
+  post 'tasks/delete_task', to: 'tasks#delete_task'
 
   get 'users/create'
   get 'users/reset'
   get 'users/destroy'
   get 'users/new'
-  get 'users/show'
-  get 'users/cash_check'
 
-  get 'users/task'
   get 'users/profile'
   get 'users/rating'
-  get 'users/test'
+  get 'users/withdrawal'
+  get 'users/users_data'
 
   get 'users/competition_speech'
   get 'users/competition_productivity'
   get 'users/competition_sleep'
   get 'users/competition_nutrition'
 
-  get 'users/offer'
-  get 'users/withdrawal'
-
-  get 'users/users_data'
-  get 'users/tasks_data'
-  get 'users/edit'
-  get 'users/react'
-
+  post 'users/change_sphere', to: 'users#change_sphere'
   post 'users/cash_check', to: 'users#cash_check'
   post 'users/new_password', to: 'users#new_password'
   post 'users/create', to: 'users#create'
@@ -37,7 +40,6 @@ Rails.application.routes.draw do
   post 'sessions/destroy', to: 'sessions#destroy'
 
   get 'main/input'
-  get 'main/output'
 
   root 'main#input', as: 'home'
 
