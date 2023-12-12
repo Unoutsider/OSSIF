@@ -1,2 +1,150 @@
-<h1>Tasks#task</h1>
-<p>Find me in app/views/tasks/task.html.erb</p>
+</br>
+<h2 align="center">Задание по текущей сфере</h2>
+</br>
+
+<% user = User.find(session[:user_id]) %>
+
+<%############## Алгоритм расчёта бонусов по показателям развитости%>
+              <% speech_bonus = 0 %>
+              <% productivity_bonus = 0 %>
+              <% sleep_bonus = 0 %>
+              <% nutrition_bonus = 0 %>
+
+              <% sql = 'select login, speech from users where superuser = false order by speech DESC'%>
+              <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+              <% records_array.each_with_index do |result, position| %>
+                <% if result.values[0] == user.login %>
+                  <% pos_speech = position + 1 %>
+                  <% if pos_speech == 1 %>
+                    <% speech_bonus = 3 %>
+                  <% elsif pos_speech > 1 and pos_speech < 11 %>
+                    <% speech_bonus = 2 %>
+                  <% elsif pos_speech > 10 and pos_speech < 21 %>
+                    <% speech_bonus = 1 %>
+                  <% else %>
+                    <% speech_bonus = 0 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% sql = 'select login, productivity from users where superuser = false order by productivity DESC'%>
+              <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+              <% records_array.each_with_index do |result, position| %>
+                <% if result.values[0] == user.login %>
+                  <% pos_productivity = position + 1 %>
+                  <% if pos_productivity == 1 %>
+                    <% productivity_bonus = 3 %>
+                  <% elsif pos_productivity > 1 and pos_productivity < 11 %>
+                    <% productivity_bonus = 2 %>
+                  <% elsif pos_productivity > 10 and pos_productivity < 21 %>
+                    <% productivity_bonus = 1 %>
+                  <% else %>
+                    <% productivity_bonus = 0 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% sql = 'select login, sleep from users where superuser = false order by sleep DESC'%>
+              <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+              <% records_array.each_with_index do |result, position| %>
+                <% if result.values[0] == user.login %>
+                  <% pos_sleep = position + 1 %>
+                  <% if pos_sleep == 1 %>
+                    <% sleep_bonus = 3 %>
+                  <% elsif pos_sleep > 1 and  pos_sleep < 11 %>
+                    <% sleep_bonus = 2 %>
+                  <% elsif pos_sleep > 10 and  pos_sleep < 21 %>
+                    <% sleep_bonus = 1 %>
+                  <% else %>
+                    <% sleep_bonus = 0 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% sql = 'select login, nutrition from users where superuser = false order by nutrition DESC'%>
+              <% records_array = ActiveRecord::Base.connection.execute(sql) %>
+              <% records_array.each_with_index do |result, position| %>
+                <% if result.values[0] == user.login %>
+                  <% pos_nutrition = position + 1 %>
+                  <% if pos_nutrition == 1 %>
+                    <% nutrition_bonus = 3 %>
+                  <% elsif pos_nutrition > 1 and  pos_nutrition < 11 %>
+                    <% nutrition_bonus = 2 %>
+                  <% elsif pos_nutrition > 10 and  pos_nutrition < 21 %>
+                    <% nutrition_bonus = 1 %>
+                  <% else %>
+                    <% nutrition_bonus = 0 %>
+                  <% end %>
+                <% end %>
+              <% end %>
+<%############################%>
+
+<% user_class = 1 %>
+<% if user.rating < 300 %>
+  <% user_class = 1 %>
+<% elsif user.rating >= 300 and user.rating < 500%>
+  <% user_class = 2 %>
+<% elsif user.rating >= 500 and user.rating < 1000%>
+  <% user_class = 3 %>
+<% elsif user.rating >= 1000 and user.rating < 2000%>
+  <% user_class = 4 %>
+<% elsif user.rating >= 2000 and user.rating < 5000%>
+  <% user_class = 5 %>
+<% else%>
+  <% user_class = 6 %>
+<% end %>
+
+
+<% completed = CompletedTask.all%>
+<% completed_arr_id = [] %>
+<% completed.each do |com_task| %>
+  <% if com_task.user_id == user.id  %>
+    <% completed_arr_id.push(com_task.task_id) %>
+  <% end %>
+<% end %>
+
+<% speech_bonus += 1 %>
+<% productivity_bonus += 1 %>
+<% sleep_bonus += 1 %>
+<% nutrition_bonus += 1 %>
+
+<% tasks = Task.all %>
+<% flag = false %>
+<% tasks.each do |task| %>
+  <% if task.test == false and task.task_class == user_class and user.current_sphere == task.sphere and task.sphere != "garbage" and task.agreed == true and !(completed_arr_id.include? task.id) and flag == false %>
+    <% flag = true %>
+    <div class="container">
+      <div class="row">
+        <%= form_with url: 'task_answer', method: :post do |form| %>
+          <%= hidden_field_tag "task_id", task.id %>
+          <%= hidden_field_tag "task_sphere", task.sphere %>
+
+          <%= hidden_field_tag "task_speech_bonus", speech_bonus %>
+          <%= hidden_field_tag "task_productivity_bonus", productivity_bonus %>
+          <%= hidden_field_tag "task_sleep_bonus", sleep_bonus %>
+          <%= hidden_field_tag "task_nutrition_bonus", nutrition_bonus %>
+
+          <h5><%= form.label :task_name, task.name %></h5>
+          <p align="justify"><%= task.description %></p>
+          <div>
+            <%= form.radio_button :answer, "answer_1" %>
+            <%= form.label task.answer_1, class: 'form-label' %>
+          </div>
+          <div>
+            <%= form.radio_button :answer, "answer_2" %>
+            <%= form.label task.answer_2, class: 'form-label' %>
+          </div>
+          <div>
+            <%= form.radio_button :answer, "answer_3" %>
+            <%= form.label task.answer_3, class: 'form-label' %>
+          </div>
+          <div>
+            <%= form.submit 'Ответить', class: 'btn btn-primary' %>
+          </div>
+          <br>
+        <% end %>
+
+      </div>
+    </div>
+  <% end %>
+<% end %>

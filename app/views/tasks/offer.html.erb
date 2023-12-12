@@ -10,7 +10,10 @@
 		<%= form.label 'Сфера развития', class: 'form-label' %>
 		<%= form.text_field :sphere, placeholder: 'Вводить как speech или productivity или sleep или nutrition', class: 'form-control', id: 'sphere' %>
 	</p>
-
+	<p>
+		<%= form.label 'Класс задания', class: 'form-label' %>
+		<%= form.number_field :task_class, placeholder: 'Номер от 1 до 6', class: 'form-control', id: 'task_class' %>
+	</p>
   <p>
 		<%= form.label 'Описание', class: 'form-label' %>
 		<%= form.text_field :description, placeholder: 'Описание', class: 'form-control', id: 'description' %>

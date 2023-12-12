@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post 'tasks/positive_offer', to: 'tasks#positive_offer'
   post 'tasks/negative_offer', to: 'tasks#negative_offer'
   post 'tasks/delete_task', to: 'tasks#delete_task'
+  post 'tasks/test_answer', to: 'tasks#test_answer'
+  post 'tasks/task_answer', to: 'tasks#task_answer'
 
   get 'users/create'
   get 'users/reset'

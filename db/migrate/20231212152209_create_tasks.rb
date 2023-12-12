@@ -13,6 +13,7 @@ class CreateTasks < ActiveRecord::Migration[7.0]
       t.boolean :agreed, null: false, default: false
       t.integer :creater
       t.boolean :test, null: false, default: false
+      t.integer :task_class
     end
   end
 end

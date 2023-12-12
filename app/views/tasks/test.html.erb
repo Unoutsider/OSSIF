@@ -1,2 +1,49 @@
-<h1>Tasks#test</h1>
-<p>Find me in app/views/tasks/test.html.erb</p>
+</br>
+<h2 align="center">Тестирование</h2>
+</br>
+
+<% user = User.find(session[:user_id]) %>
+
+<% completed = CompletedTask.all%>
+<% completed_arr_id = [] %>
+<% completed.each do |com_task| %>
+  <% if com_task.user_id == user.id  %>
+    <% completed_arr_id.push(com_task.task_id) %>
+  <% end %>
+<% end %>
+
+<% tasks = Task.all %>
+<% flag = false %>
+<% tasks.each do |task| %>
+  <% if task.test == true and !(completed_arr_id.include? task.id) and flag == false %>
+    <% flag = true %>
+    <div class="container">
+      <div class="row">
+
+        <%= form_with url: 'test_answer', method: :post do |form| %>
+          <%= hidden_field_tag "task_id", task.id %>
+          <%= hidden_field_tag "task_sphere", task.sphere %>
+
+          <h5><%= form.label :task_name, task.name %></h5>
+          <p><%= task.description %></p>
+          <div>
+            <%= form.radio_button :answer, "answer_1" %>
+            <%= form.label task.answer_1, class: 'form-label' %>
+          </div>
+          <div>
+            <%= form.radio_button :answer, "answer_2" %>
+            <%= form.label task.answer_2, class: 'form-label' %>
+          </div>
+          <div>
+            <%= form.radio_button :answer, "answer_3" %>
+            <%= form.label task.answer_3, class: 'form-label' %>
+          </div>
+          <div>
+            <%= form.submit 'Ответить', class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  <% end %>
+<% end %>
